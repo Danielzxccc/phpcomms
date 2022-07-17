@@ -1,0 +1,63 @@
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+  }
+  body{
+	font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+	background: url(https://ken.ph/designer-content/uploads/2018/02/20180220-sbu-career-talk.jpg);
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-position: center;
+}
+  main{
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+  }
+  .container{
+	display: flex;
+	align-items: center;
+	flex-direction: column;
+	border: 1px solid black;
+	max-width: 1200px;
+	width: 900px;
+	height: 100vh;
+	background-color: white;
+  }
+  .container h1{
+	margin-bottom: 20px;
+  }
+  .flexwrapper{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+  }
+  .flexwrapper h3{
+	margin-right: 10px;
+	margin-left: 10px;
+  }
+  .flexwrapper a{
+	color: black;
+  }
+  .bgmain{
+	height: 550px;
+	width: 100%;
+	background: url(images/main2.jpg);
+	background-repeat: no-repeat;
+	font-family: 'Times New Roman', Times, serif;
+  }
+  .bgmain h1{
+	position:absolute;
+	text-align:left;
+	color:#8b0000;
+	font-size:65px;
+	color:#8b0000;
+	top:20px;
+  }
+  .off{
+	color:#808080;
+  }
+  .bank{
+	font-size: 3rem;
+  }
