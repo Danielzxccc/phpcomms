@@ -3,8 +3,7 @@
     include_once("connections/connection.php");
     
     $con = connection();
-    $search = $_GET['search'];
-    $sql = "SELECT studentinformation.studentid, studentinformation.studentfirstname, studentinformation.studentlastname, course.coursetitle from studentinformation JOIN course on studentinformation.courseid = course.courseid WHERE studentfirstname or studentlastname LIKE '%$search%' ORDER BY studentfirstname DESC;";
+    $sql = "SELECT studentinformation.studentid, studentinformation.studentfirstname, studentinformation.studentlastname, course.coursetitle from studentinformation JOIN course on studentinformation.courseid = course.courseid ORDER BY studentinformation.studentlastname ASC;;";
     $students = $con->query($sql) or die($con->error);
     $row = $students->fetch_assoc();
 
@@ -57,8 +56,8 @@
     <body>
     <main>
         <div class="wrapper">
-            <div class="container mt-4">
-            <form action="resultstudent.php" method="get">
+            <div class="container mt-3">
+                <form action="resultenrollment.php" method="get">
                 <div class="input-group">
                     <div class="form-outline">
                         <input type="search" id="form1" class="form-control" name="search"/>
@@ -79,27 +78,28 @@
                     </tr>
                 </thead>
                 <tbody>
-                <?php if ($students->num_rows > 0){do{ ?>
+                <?php do{ ?>
                     <tr>
-                    <td><a href="details.php?ID=<?php echo $row['studentid']; ?>" class="btn btn-primary">view</a></td>
+                    <td><a href="detailsenrollment.php?ID=<?php echo $row['studentid']; ?>" class="btn btn-primary">view</a></td>
                     <td><?php echo $row['studentid'];?></td>
-                    <td><?php echo $row['studentfirstname'];?> <?php echo $row['studentlastname'];?></td>
+                    <td> <?php echo $row['studentlastname'];?>, <?php echo $row['studentfirstname'];?></td>
                     <td><?php echo $row['coursetitle'];?></td>
                     </tr>
-                <?php }while($row = $students->fetch_assoc()); } else {
-                        echo "NO RECORD FOUND";
-                    } ?> 
+                <?php }while($row = $students->fetch_assoc()); ?> 
                 </tbody>
                 </table>
             </div>
-            <div class="d-flex">
-            <a href="index.html" class="btn btn-primary me-3">Home</a>
-            <a href="viewstudent.php" class="btn btn-primary">Back</a>
-            </div>
+            <a href="index.html" class="btn btn-primary">Home</a>
+
         </div>
     </main>
     
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js" integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-kjU+l4N0Yf4ZOJErLsIcvOU2qSb74wXpOhqTvwVx3OElZRweTnQ6d31fXEoRD1Jy" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+    function confirmation() {
+      return confirm('Are you sure you want to delele this?');
+    }
+    </script>
     </body>
     </html>

@@ -3,8 +3,7 @@
     include_once("connections/connection.php");
     
     $con = connection();
-    $search = $_GET['search'];
-    $sql = "SELECT studentinformation.studentid, studentinformation.studentfirstname, studentinformation.studentlastname, course.coursetitle from studentinformation JOIN course on studentinformation.courseid = course.courseid WHERE studentfirstname or studentlastname LIKE '%$search%' ORDER BY studentfirstname DESC;";
+    $sql = "SELECT * from subject";
     $students = $con->query($sql) or die($con->error);
     $row = $students->fetch_assoc();
 
@@ -57,49 +56,44 @@
     <body>
     <main>
         <div class="wrapper">
-            <div class="container mt-4">
-            <form action="resultstudent.php" method="get">
-                <div class="input-group">
-                    <div class="form-outline">
-                        <input type="search" id="form1" class="form-control" name="search"/>
-                        <label class="form-label" for="form1">Search</label>
-                    </div>
-                    <button type="submit" class="btn btn-primary h-25">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </div>
-                </form>
+            <div class="container mt-3">
                 <table class="table table-striped">
                 <thead class="thead-dark">
                     <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">ID</th>
-                    <th scope="col">Full Name</th>
-                    <th scope="col">Course</th>
+                    <th scope="col"></th>
+                    <th scope="col">Subject ID</th>
+                    <th scope="col">Subject Title</th>
+                    <th scope="col">Units</th>
                     </tr>
                 </thead>
                 <tbody>
-                <?php if ($students->num_rows > 0){do{ ?>
+                <?php do{ ?>
                     <tr>
-                    <td><a href="details.php?ID=<?php echo $row['studentid']; ?>" class="btn btn-primary">view</a></td>
-                    <td><?php echo $row['studentid'];?></td>
-                    <td><?php echo $row['studentfirstname'];?> <?php echo $row['studentlastname'];?></td>
-                    <td><?php echo $row['coursetitle'];?></td>
+                    <td class="d-flex"><a href="updatesubject.php?ID=<?php echo $row['subjectid']; ?>" class="btn btn-primary me-2">update</a>
+                    <form action="deletesubject.php" method="post">
+                    <button type="submit" name="delete" class="btn btn-danger" onclick="return confirmation()">Delete</button>
+                    <input type="hidden" name="ID" value="<?php echo $row['subjectid']?>">
+                    </form>
+                    </td>
+                    <td><?php echo $row['subjectid']; ?></td>
+                    <td><?php echo $row['subjecttitle'];?></td>
+                    <td><?php echo $row['units'];?></td>
                     </tr>
-                <?php }while($row = $students->fetch_assoc()); } else {
-                        echo "NO RECORD FOUND";
-                    } ?> 
+                <?php }while($row = $students->fetch_assoc()); ?> 
                 </tbody>
                 </table>
             </div>
-            <div class="d-flex">
-            <a href="index.html" class="btn btn-primary me-3">Home</a>
-            <a href="viewstudent.php" class="btn btn-primary">Back</a>
-            </div>
+            <a href="index.html" class="btn btn-primary">Home</a>
+
         </div>
     </main>
     
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.5/dist/umd/popper.min.js" integrity="sha384-Xe+8cL9oJa6tN/veChSP7q+mnSPaj5Bcu9mPX5F5xIGE0DVittaqT5lorf0EI7Vk" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-kjU+l4N0Yf4ZOJErLsIcvOU2qSb74wXpOhqTvwVx3OElZRweTnQ6d31fXEoRD1Jy" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+    function confirmation() {
+      return confirm('Are you sure you want to delele this?');
+    }
+    </script>
     </body>
     </html>

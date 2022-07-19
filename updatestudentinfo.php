@@ -7,16 +7,21 @@
     $courses = $con->query($fetch_course) or die($con->error);
     $row = $courses->fetch_assoc();
 
+    $id = $_GET['ID'];
+    $sql = "SELECT * FROM studentinformation WHERE studentid = '$id'";
+    $students = $con->query($sql) or die($con->error);
+    $result = $students->fetch_assoc();
+
     if(isset($_POST['submit'])){
 
-        $studentid = $_POST['studentid'];
+        $id = $_GET['ID'];
         $studentfirstname = $_POST['studentfirstname'];
         $studentlastname = $_POST['studentlastname'];
         $courseid = $_POST['courseid'];
 
-        $sql = "insert into studentinformation(studentid,studentfirstname,studentlastname,courseid) values('$studentid','$studentfirstname','$studentlastname','$courseid')";
+        $sql = "UPDATE studentinformation SET studentfirstname = '$studentfirstname', studentlastname = '$studentlastname', courseid = '$courseid' WHERE studentid = '$id'";
         $con->query($sql) or die ($con->error);
-        echo header("Location: success.html");
+        echo header("Location: detailsenrollment.php?ID=".$id);
     }
         
     
@@ -59,32 +64,24 @@
                     <div class="page-header">
                         <h2 style="font-family:Times New Roman; color:white; font-size: 2rem">Student Information</h>
                     </div>
-                    <p style="font-family:Times New Roman; color:white; font-size: 1rem"=>Kindly complete this form to add student record to the database.</p>
+                    <p style="font-family:Times New Roman; color:white; font-size: 1rem"=>Kindly complete this form to update student record to the database.</p>
                     
-                    <form action="" method="post">		  
-                    <div class="form-group">
-                        <label style="font-family:Times New Roman; color:white; font-size: 2rem">Student ID</label>
-                        <input type="text" placeholder="20201059" name="studentid" class="form-control" required>
-                    </div>
+                    <form action="" method="post">		   
                     <div class="form-group">
                         <label style="font-family:Times New Roman; color:white; font-size: 2rem">First Name</label>
-                        <input type="text" placeholder="Jennie" name="studentfirstname" class="form-control" required>
+                        <input type="text" placeholder="Jennie" name="studentfirstname" class="form-control" value="<?php echo $result['studentfirstname'];?>" required>
                     </div>
                     <div class="form-group">
                         <label style="font-family:Times New Roman; color:white; font-size: 2rem">Last Name</label>
-                        <input type="text" placeholder="Kim" name="studentlastname" class="form-control" required>
+                        <input type="text" placeholder="Kim" name="studentlastname" class="form-control" value="<?php echo $result['studentlastname'];?>" required>
                     </div>
-                    <!-- <div class="form-group">
-                        <label style="font-family:Times New Roman; color:white; font-size: 2rem" required>Course ID</label>
-                        <input type="text" placeholder="LM" name="courseid" class="form-control">
-                    </div> -->
                     <label style="font-family:Times New Roman; color:white; font-size: 2rem" required>Course ID</label>
                     <select class="form-select" aria-label="Default select example" name="courseid">
                     <?php do{ ?>
                         <option value="<?php echo $row['courseid'];?>"><?php echo $row['courseid'];?></option>
                     <?php }while($row = $courses->fetch_assoc()); ?> 
                     </select>
-                    <input type="submit" class="btn btn-primary w-100 mt-3" name="submit" value="Input Record">
+                    <input type="submit" class="btn btn-primary w-100 mt-3" name="submit" value="Update Record">
                 </form>
                 <button onclick="history.back()" class="btn btn-primary w-100 mt-2">Back</button>
                 </div>

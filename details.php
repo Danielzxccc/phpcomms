@@ -124,6 +124,7 @@
             </div>
         </div>
     </div>
+    <a href="viewstudent.php" class="btn btn-primary">Back</a>
 </div>
 </div>                                        
         </div>

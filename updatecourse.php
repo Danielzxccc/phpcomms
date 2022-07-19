@@ -3,13 +3,19 @@
     include_once("connections/connection.php");
     
     $con = connection();
-    if(isset($_POST['submit'])){
 
+    $id = $_GET['ID'];
+    $sql = "SELECT * FROM course WHERE courseid = '$id'";
+    $students = $con->query($sql) or die($con->error);
+    $row = $students->fetch_assoc();
+
+    if(isset($_POST['submit'])){
+        $id = $_GET['ID'];
         $courseid = $_POST['courseid'];
         $coursetitle = $_POST['coursetitle'];
 
 
-        $sql = "insert into course(courseid, coursetitle) values('$courseid','$coursetitle')";
+        $sql = "UPDATE course SET courseid = '$courseid', coursetitle = '$coursetitle' WHERE courseid = '$id'";
         $con->query($sql) or die ($con->error);
         echo header("Location: success.html");
     }
@@ -53,24 +59,23 @@
                     <div class="page-header">
                         <h2 style="font-family:Times New Roman; color:white; font-size: 2rem">Course</h>
                     </div>
-                    <p style="font-family:Times New Roman; color:white; font-size: 1rem"=>Kindly complete this form to add course record to the database.</p>
+                    <p style="font-family:Times New Roman; color:white; font-size: 1rem"=>Kindly complete this form to update course record to the database.</p>
                     
                     <form action="" method="post">		  
                     <div class="form-group">
                         <label style="font-family:Times New Roman; color:white; font-size: 2rem">Course ID</label>
-                        <input type="text" placeholder="AC" name="courseid" class="form-control" required>
+                        <input type="text" placeholder="AC" name="courseid" class="form-control" value="<?php echo $row['courseid'];?>" required>
                     </div>
                     <div class="form-group">
                         <label style="font-family:Times New Roman; color:white; font-size: 2rem">Course Title</label>
-                        <input type="text" placeholder="Accountancy" name="coursetitle" class="form-control" required>
+                        <input type="text" placeholder="Accountancy" name="coursetitle" class="form-control" value="<?php echo $row['coursetitle'];?>" required>
                     </div>
-                    <input type="submit" class="btn btn-primary w-100 mt-3" name="submit" value="Input Record">
+                    <input type="submit" class="btn btn-primary w-100 mt-3" name="submit" value="Update Record">
                 </form>
-                <button onclick="history.back()" class="btn btn-primary w-100 mt-2">Back</button>
                 </div>
             </div>
+            <a href="courselist.php" class="btn btn-primary mt-2 w-100">Back</a>
         </div>
-
         </div>
     
 

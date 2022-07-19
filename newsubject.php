@@ -71,6 +71,7 @@
                     </div>
                     <input type="submit" class="btn btn-primary w-100 mt-3" name="submit" value="Input Record">
                 </form>
+                <button onclick="history.back()" class="btn btn-primary w-100 mt-2">Back</button>
                 </div>
             </div>
         </div>

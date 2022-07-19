@@ -3,7 +3,7 @@
     include_once("connections/connection.php");
     
     $con = connection();
-    $sql = "SELECT studentinformation.studentid, studentinformation.studentfirstname, studentinformation.studentlastname, course.coursetitle from studentinformation JOIN course on studentinformation.courseid = course.courseid;";
+    $sql = "SELECT studentinformation.studentid, studentinformation.studentfirstname, studentinformation.studentlastname, course.coursetitle from studentinformation JOIN course on studentinformation.courseid = course.courseid ORDER BY studentinformation.studentlastname ASC;";
     $students = $con->query($sql) or die($con->error);
     $row = $students->fetch_assoc();
 
@@ -56,8 +56,7 @@
     <body>
     <main>
         <div class="wrapper">
-            <a href="index.html" class="btn btn-primary">Home</a>
-            <div class="container">
+            <div class="container mt-3">
                 <form action="resultstudent.php" method="get">
                 <div class="input-group">
                     <div class="form-outline">
@@ -83,15 +82,14 @@
                     <tr>
                     <td><a href="details.php?ID=<?php echo $row['studentid']; ?>" class="btn btn-primary">view</a></td>
                     <td><?php echo $row['studentid'];?></td>
-                    <td><?php echo $row['studentfirstname'];?> <?php echo $row['studentlastname'];?></td>
+                    <td> <?php echo $row['studentlastname'];?>, <?php echo $row['studentfirstname'];?></td>
                     <td><?php echo $row['coursetitle'];?></td>
                     </tr>
                 <?php }while($row = $students->fetch_assoc()); ?> 
                 </tbody>
                 </table>
-
             </div>
-            
+            <a href="index.html" class="btn btn-primary">Home</a>
 
         </div>
     </main>

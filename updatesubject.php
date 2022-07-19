@@ -3,13 +3,20 @@
     include_once("connections/connection.php");
     
     $con = connection();
+
+    $id = $_GET['ID'];
+    $sql = "SELECT * FROM subject WHERE subjectid = '$id'";
+    $students = $con->query($sql) or die($con->error);
+    $row = $students->fetch_assoc();
+
     if(isset($_POST['submit'])){
+        $id = $_GET['ID'];
+        $subjectid = $_POST['subjectid'];
+        $subjecttitle = $_POST['subjecttitle'];
+        $units = $_POST['units'];
 
-        $courseid = $_POST['courseid'];
-        $coursetitle = $_POST['coursetitle'];
 
-
-        $sql = "insert into course(courseid, coursetitle) values('$courseid','$coursetitle')";
+        $sql = "UPDATE subject SET subjectid = '$subjectid', subjecttitle = '$subjecttitle', units = '$units' WHERE subjectid = '$id'";
         $con->query($sql) or die ($con->error);
         echo header("Location: success.html");
     }
@@ -53,20 +60,24 @@
                     <div class="page-header">
                         <h2 style="font-family:Times New Roman; color:white; font-size: 2rem">Course</h>
                     </div>
-                    <p style="font-family:Times New Roman; color:white; font-size: 1rem"=>Kindly complete this form to add course record to the database.</p>
+                    <p style="font-family:Times New Roman; color:white; font-size: 1rem"=>Kindly complete this form to update subject record to the database.</p>
                     
                     <form action="" method="post">		  
                     <div class="form-group">
-                        <label style="font-family:Times New Roman; color:white; font-size: 2rem">Course ID</label>
-                        <input type="text" placeholder="AC" name="courseid" class="form-control" required>
+                        <label style="font-family:Times New Roman; color:white; font-size: 2rem">Subject ID</label>
+                        <input type="text" placeholder="ICT01" name="subjectid" class="form-control" value="<?php echo $row['subjectid'];?>" required>
                     </div>
                     <div class="form-group">
-                        <label style="font-family:Times New Roman; color:white; font-size: 2rem">Course Title</label>
-                        <input type="text" placeholder="Accountancy" name="coursetitle" class="form-control" required>
+                        <label style="font-family:Times New Roman; color:white; font-size: 2rem">Subject Title</label>
+                        <input type="text" placeholder="Programming 1" name="subjecttitle" class="form-control" value="<?php echo $row['subjecttitle'];?>" required>
                     </div>
-                    <input type="submit" class="btn btn-primary w-100 mt-3" name="submit" value="Input Record">
+                    <div class="form-group">
+                        <label style="font-family:Times New Roman; color:white; font-size: 2rem">Units</label>
+                        <input type="text" placeholder="2" name="units" class="form-control" value="<?php echo $row['units'];?>" required>
+                    </div>
+                    <input type="submit" class="btn btn-primary w-100 mt-3" name="submit" value="Update Record">
                 </form>
-                <button onclick="history.back()" class="btn btn-primary w-100 mt-2">Back</button>
+                <a href="subjectlist.php" class="btn btn-primary mt-2 w-100">Back</a>
                 </div>
             </div>
         </div>

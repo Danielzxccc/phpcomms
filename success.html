@@ -74,8 +74,7 @@
         redirect_Page();
         function redirect_Page() {
         var tID = setTimeout(function () {
-            window.location.href = "/newmenu";
-            window.clearTimeout(tID);
+          history.back()
         }, 2000);
         }
       </script>

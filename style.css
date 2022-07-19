@@ -16,11 +16,6 @@
 	flex-direction: column;
   }
   .container{
-	display: flex;
-	align-items: center;
-	flex-direction: column;
-	border: 1px solid black;
-	max-width: 1200px;
 	width: 900px;
 	height: 100vh;
 	background-color: white;
@@ -32,6 +27,7 @@
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	width: 100%;
   }
   .flexwrapper h3{
 	margin-right: 10px;
@@ -60,4 +56,34 @@
   }
   .bank{
 	font-size: 3rem;
+  }
+  .linktwo{
+	margin-top: 10px;
+	margin-bottom: 10px;
+  }
+  ul {
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+	background-color: #333;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+  }
+  
+  li {
+	float: left;
+  }
+  
+  li a {
+	display: block;
+	color: white;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+  }
+  
+  li a:hover {
+	background-color: #111;
   }

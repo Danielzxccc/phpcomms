@@ -3,8 +3,7 @@
     include_once("connections/connection.php");
     
     $con = connection();
-    $search = $_GET['search'];
-    $sql = "SELECT studentinformation.studentid, studentinformation.studentfirstname, studentinformation.studentlastname, course.coursetitle from studentinformation JOIN course on studentinformation.courseid = course.courseid WHERE studentfirstname or studentlastname LIKE '%$search%' ORDER BY studentfirstname DESC;";
+    $sql = "SELECT course.coursetitle, (SELECT COUNT(*) FROM studentinformation WHERE studentinformation.courseid = course.courseid) as total from course LEFT JOIN studentinformation on course.courseid = studentinformation.courseid GROUP BY course.coursetitle;";
     $students = $con->query($sql) or die($con->error);
     $row = $students->fetch_assoc();
 
@@ -57,45 +56,27 @@
     <body>
     <main>
         <div class="wrapper">
-            <div class="container mt-4">
-            <form action="resultstudent.php" method="get">
-                <div class="input-group">
-                    <div class="form-outline">
-                        <input type="search" id="form1" class="form-control" name="search"/>
-                        <label class="form-label" for="form1">Search</label>
-                    </div>
-                    <button type="submit" class="btn btn-primary h-25">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </div>
-                </form>
+            <div class="container mt-3">
                 <table class="table table-striped">
                 <thead class="thead-dark">
                     <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">ID</th>
-                    <th scope="col">Full Name</th>
-                    <th scope="col">Course</th>
+                    <th scope="col">COURSE</th>
+                    <th scope="col">STUDENTS ENROLLED</th>
                     </tr>
                 </thead>
                 <tbody>
-                <?php if ($students->num_rows > 0){do{ ?>
+                <?php do{ ?>
                     <tr>
-                    <td><a href="details.php?ID=<?php echo $row['studentid']; ?>" class="btn btn-primary">view</a></td>
-                    <td><?php echo $row['studentid'];?></td>
-                    <td><?php echo $row['studentfirstname'];?> <?php echo $row['studentlastname'];?></td>
+                    
                     <td><?php echo $row['coursetitle'];?></td>
+                    <td> <?php echo $row['total'];?></td>
                     </tr>
-                <?php }while($row = $students->fetch_assoc()); } else {
-                        echo "NO RECORD FOUND";
-                    } ?> 
+                <?php }while($row = $students->fetch_assoc()); ?> 
                 </tbody>
                 </table>
             </div>
-            <div class="d-flex">
-            <a href="index.html" class="btn btn-primary me-3">Home</a>
-            <a href="viewstudent.php" class="btn btn-primary">Back</a>
-            </div>
+            <a href="index.html" class="btn btn-primary">Home</a>
+
         </div>
     </main>
     

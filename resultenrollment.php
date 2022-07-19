@@ -81,7 +81,7 @@
                 <tbody>
                 <?php if ($students->num_rows > 0){do{ ?>
                     <tr>
-                    <td><a href="details.php?ID=<?php echo $row['studentid']; ?>" class="btn btn-primary">view</a></td>
+                    <td><a href="detailsenrollment.php?ID=<?php echo $row['studentid']; ?>" class="btn btn-primary">view</a></td>
                     <td><?php echo $row['studentid'];?></td>
                     <td><?php echo $row['studentfirstname'];?> <?php echo $row['studentlastname'];?></td>
                     <td><?php echo $row['coursetitle'];?></td>
@@ -94,7 +94,7 @@
             </div>
             <div class="d-flex">
             <a href="index.html" class="btn btn-primary me-3">Home</a>
-            <a href="viewstudent.php" class="btn btn-primary">Back</a>
+            <a href="viewenrollment.php" class="btn btn-primary">Back</a>
             </div>
         </div>
     </main>

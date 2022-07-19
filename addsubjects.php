@@ -3,15 +3,20 @@
     include_once("connections/connection.php");
     
     $con = connection();
+    $id = $_GET['ID'];
+    $sql = "SELECT subjectid FROM subject WHERE 1";
+    $students = $con->query($sql) or die($con->error);
+    $row = $students->fetch_assoc();
+
     if(isset($_POST['submit'])){
 
-        $courseid = $_POST['courseid'];
-        $coursetitle = $_POST['coursetitle'];
+        $studentid = $_POST['studentid'];
+        $subjectid = $_POST['subjectid'];
 
 
-        $sql = "insert into course(courseid, coursetitle) values('$courseid','$coursetitle')";
+        $sql = "INSERT INTO `enrollment` (`studentid`, `subjectid`) VALUES ('$studentid', '$subjectid')";
         $con->query($sql) or die ($con->error);
-        echo header("Location: success.html");
+        echo header("Location: detailsenrollment.php?ID=".$id);
     }
         
     
@@ -51,20 +56,22 @@
             <div class="row">
                 <div class="col-md-15">
                     <div class="page-header">
-                        <h2 style="font-family:Times New Roman; color:white; font-size: 2rem">Course</h>
+                        <h2 style="font-family:Times New Roman; color:white; font-size: 2rem">Subject</h>
                     </div>
-                    <p style="font-family:Times New Roman; color:white; font-size: 1rem"=>Kindly complete this form to add course record to the database.</p>
+                    <p style="font-family:Times New Roman; color:white; font-size: 1rem"=>Kindly complete this form to add a subject for student.</p>
                     
                     <form action="" method="post">		  
                     <div class="form-group">
-                        <label style="font-family:Times New Roman; color:white; font-size: 2rem">Course ID</label>
-                        <input type="text" placeholder="AC" name="courseid" class="form-control" required>
+                        <input type="hidden" placeholder="ICT01" name="studentid" class="form-control" value="<?php echo $id;?>">
                     </div>
                     <div class="form-group">
-                        <label style="font-family:Times New Roman; color:white; font-size: 2rem">Course Title</label>
-                        <input type="text" placeholder="Accountancy" name="coursetitle" class="form-control" required>
+                        <select class="form-select" aria-label="Default select example" name="subjectid">
+                        <?php do{ ?>
+                            <option value="<?php echo $row['subjectid'];?>"><?php echo $row['subjectid'];?></option>
+                        <?php }while($row = $students->fetch_assoc()); ?> 
+                        </select>
                     </div>
-                    <input type="submit" class="btn btn-primary w-100 mt-3" name="submit" value="Input Record">
+                    <input type="submit" class="btn btn-primary w-100 mt-3" name="submit" value="Add Subject">
                 </form>
                 <button onclick="history.back()" class="btn btn-primary w-100 mt-2">Back</button>
                 </div>
